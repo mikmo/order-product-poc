@@ -403,13 +403,13 @@ flowchart TB
         ES[(Elasticsearch)]
     end
     
-    OC -->|"1. Richiesta API"| OMS
-    OMS -->|"2. Verifica disponibilità"| PSM
-    PSM -->|"3. Query/Update"| SQL
-    OMS -->|"4. Salva ordine"| SQL
-    OMS -->|"5. Dispatch evento"| MB
-    MB -->|"6. Async processing"| EH
-    EH -->|"7. Indicizza"| ES
+    OC -->|"(1) Richiesta API"| OMS
+    OMS -->|"(2) Verifica disponibilità"| PSM
+    PSM -->|"(3) Query/Update"| SQL
+    OMS -->|"(4) Salva ordine"| SQL
+    OMS -->|"(5) Dispatch evento"| MB
+    MB -->|"(6) Async processing"| EH
+    EH -->|"(7) Indicizza"| ES
     
     OC -->|"Ricerca ordini"| EOS
     EOS -->|"Query"| ES
@@ -492,4 +492,5 @@ stateDiagram-v2
     }
 ```
 
-Questi diagrammi forniscono una visualizzazione chiara dei principali flussi di lavoro e interazioni del sistema. La notazione Mermaid è supportata direttamente su GitHub e molte altre piattaforme di documentazione, rendendo questi diagrammi immediatamente visualizzabili.
+Diagrammi come questi possono essere utili per comprendere le interazioni tra i vari componenti del sistema e per pianificare future evoluzioni architetturali. 
+
