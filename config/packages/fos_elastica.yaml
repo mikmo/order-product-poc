@@ -1,0 +1,19 @@
+fos_elastica:
+    clients:
+        default:
+#            url: 'http://172.19.0.2:9200'
+            url: 'http://elasticsearch:9200'
+            # Uncomment the following line if you want to use a specific version of Elasticsearch
+            # version: '7.10'
+    indexes:
+        orders:
+            persistence:
+              driver: orm
+              model: App\Entity\Order
+              provider: ~
+              finder: ~
+            properties:
+                id: { type: integer }
+                name: { type: text }
+                description: { type: text }
+                date: { type: date }

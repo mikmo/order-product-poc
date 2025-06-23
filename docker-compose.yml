@@ -1,0 +1,91 @@
+services:
+  php-fpm:
+    build: ./docker/php
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    environment:
+      - SYMFONY_ENV=dev
+    ports:
+      - "9003:9003"  # Mappatura della porta di Xdebug
+    depends_on:
+      - db-mysql
+    networks:
+      - repo-product-order-ntw
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Assicura che host.docker.internal funzioni su tutti i sistemi
+
+  web-nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php-fpm
+    networks:
+      - repo-product-order-ntw
+
+  db-mysql:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+      MYSQL_ROOT_PASSWORD: symfony # Necessario per l'avvio di MySQL
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+    networks:
+      - repo-product-order-ntw
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+    networks:
+      - repo-product-order-ntw
+
+  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+    image: elasticsearch:7.17.10
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - repo-product-order-ntw
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9200" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  kibana:
+#    image: docker.elastic.co/kibana/kibana:7.17.10
+    image: kibana:7.17.10
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - repo-product-order-ntw
+
+volumes:
+  pgdata:
+  mysqldata:
+  elasticsearch-data:
+
+networks:
+  repo-product-order-ntw:

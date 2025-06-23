@@ -1,0 +1,10 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Order Management API
+            description: API per la gestione degli ordini
+            version: 1.0.0
+    areas:
+      default:
+        path_patterns:
+          - ^/api/orders
