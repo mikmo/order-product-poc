@@ -450,14 +450,14 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     subgraph "Transazione Principale"
-        A[App] -->|"1. Crea/Modifica Ordine"| B[Database]
-        A -->|"2. Dispatch Messaggio"| C[Message Bus]
+        A[App] -->|"(1) Crea/Modifica Ordine"| B[Database]
+        A -->|"(2) Dispatch Messaggio"| C[Message Bus]
     end
     
     subgraph "Processo Asincrono"
-        C -->|"3. Consume"| D[Message Handler]
-        D -->|"4. Load Ordine"| B
-        D -->|"5. Indice"| E[Elasticsearch]
+        C -->|"(3) Consume"| D[Message Handler]
+        D -->|"(4) Load Ordine"| B
+        D -->|"(5) Indice"| E[Elasticsearch]
     end
     
     style A fill:#d4f1f9,stroke:#333
