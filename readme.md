@@ -471,17 +471,11 @@ flowchart LR
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Disponibile: Creazione prodotto
     Disponibile --> ScarsoInventario: Quantità < soglia minima
     ScarsoInventario --> Disponibile: Rifornimento
     ScarsoInventario --> NonDisponibile: Quantità = 0
     NonDisponibile --> Disponibile: Rifornimento
     
-    state Disponibile {
-        [*] --> Normale
-        Normale --> Alta: Alta domanda
-        Alta --> Normale: Normalizzazione
-    }
     
     state "Elaborazione Ordine" as Ordine {
         [*] --> VerificaDisponibilità
