@@ -437,7 +437,7 @@ sequenceDiagram
     C1->>API: PUT /orders/123?version=1 {name:"New Name"}
     API->>DB: UPDATE orders SET name="New Name", version=2 WHERE id=123 AND version=1
     DB-->>API: 1 row affected
-    API-->>C1: Order(id:123, version:2)
+    API-->>C1: Order(id:123, version=2)
     
     C2->>API: PUT /orders/123?version=1 {name:"Another Name"}
     API->>DB: UPDATE orders SET name="Another Name", version=2 WHERE id=123 AND version=1
@@ -471,11 +471,17 @@ flowchart LR
 
 ```mermaid
 stateDiagram-v2
+    [*] --> Disponibile: Creazione prodotto
     Disponibile --> ScarsoInventario: Quantità < soglia minima
     ScarsoInventario --> Disponibile: Rifornimento
     ScarsoInventario --> NonDisponibile: Quantità = 0
     NonDisponibile --> Disponibile: Rifornimento
     
+    state Disponibile {
+        [*] --> Normale
+        Normale --> Alta: Alta domanda
+        Alta --> Normale: Normalizzazione
+    }
     
     state "Elaborazione Ordine" as Ordine {
         [*] --> VerificaDisponibilità
