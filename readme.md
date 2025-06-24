@@ -37,7 +37,7 @@ Questa API RESTful dimostra una soluzione robusta per la gestione di un sistema 
 
 1. Clona il repository:
    ```bash
-   git clone https://your-repository-url/order-product-poc.git
+   git clone https://github.com/mikmo/order-product-poc.git
    cd order-product-poc
    ```
 
