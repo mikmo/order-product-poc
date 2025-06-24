@@ -17,3 +17,5 @@
 /.setup-test-db.sh
 /readme_v1.md
 /setup-test-db.sh
+
+/.idea/
